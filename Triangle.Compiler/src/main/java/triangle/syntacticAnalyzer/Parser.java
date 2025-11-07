@@ -289,26 +289,27 @@ public class Parser {
 				finish(commandPos);
 				commandAST = new CallCommand(iAST, apsAST, commandPos);
 			}
-			else if(currentToken.kind == Token.Kind.OPERATOR && currentToken.spelling.equals("++")) {
+			// Changed the ++ operator into a ** for task 3
+			else if(currentToken.kind == Token.Kind.OPERATOR && currentToken.spelling.equals("**")) {
 		        Vname vAST = parseRestOfVname(iAST);
-		        acceptIt(); // consume the ++ operator
+		        acceptIt(); // consume the ** operator
 		        
-		        // Create the equivalent assignment: a = a + 1
+		        // Create the equivalent assignment: a = a * 2
 		        SourcePosition assignPos = new SourcePosition();
 		        start(assignPos);
 		        
 		        // Create VnameExpression for 'a'
 		        VnameExpression leftExpr = new VnameExpression(vAST, vAST.getPosition());
 		        
-		        // Create IntegerLiteral for '1'
-		        IntegerLiteral oneLiteral = new IntegerLiteral("1", currentToken.position);
-		        IntegerExpression oneExpr = new IntegerExpression(oneLiteral, currentToken.position);
+		        // Create IntegerLiteral for '2'
+		        IntegerLiteral twoLiteral = new IntegerLiteral("2", currentToken.position);
+		        IntegerExpression twoExpr = new IntegerExpression(twoLiteral, currentToken.position);
 		        
-		        // Create Operator for '+'
-		        Operator plusOp = new Operator("+", currentToken.position);
+		        // Create Operator for '*'
+		        Operator multiplyOp = new Operator("*", currentToken.position);
 		        
-		        // Create BinaryExpression for 'a + 1'
-		        BinaryExpression rightExpr = new BinaryExpression(leftExpr, plusOp, oneExpr, assignPos);
+		        // Create BinaryExpression for 'a * 2'
+		        BinaryExpression rightExpr = new BinaryExpression(leftExpr, multiplyOp, twoExpr, assignPos);
 		        
 		        finish(assignPos);
 		        commandAST = new AssignCommand(vAST, rightExpr, assignPos);

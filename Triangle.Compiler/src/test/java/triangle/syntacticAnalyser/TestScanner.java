@@ -83,6 +83,11 @@ public class TestScanner {
 		compileExpectFailure("/add.tri");
 	}
 	
+	@Test
+	public void testDoubleOp() {
+		compileExpectSuccess("/double.tri");
+	}
+	
 	
 	private void compileExpectSuccess(String filename) {
 		// build.gradle has a line sourceSets.test.resources.srcDir file("$rootDir/programs")
