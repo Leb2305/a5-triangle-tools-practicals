@@ -331,6 +331,12 @@ public class Parser {
 			commandAST = parseCommand();
 			accept(Token.Kind.END);
 			break;
+		
+		case LCURLY:
+			acceptIt();
+			commandAST = parseCommand();
+			accept(Token.Kind.RCURLY);
+			break;
 
 		case LET: {
 			acceptIt();
@@ -373,6 +379,7 @@ public class Parser {
 			commandAST = new RepeatCommand(eAST, cAST, commandPos);
 		}
 			break;
+		//new case for the new while do loop functionality
 		case LOOP: {
 			acceptIt();
 			Command c1AST = parseSingleCommand();
@@ -387,6 +394,7 @@ public class Parser {
 
 		case SEMICOLON:
 		case END:
+		case RCURLY:
 		case ELSE:
 		case IN:
 		case EOT:
