@@ -88,6 +88,10 @@ public class TestScanner {
 		compileExpectSuccess("/double.tri");
 	}
 	
+	@Test
+	public void testWhileDo() {
+		compileExpectSuccess("/loopwhile.tri");
+	}
 	
 	private void compileExpectSuccess(String filename) {
 		// build.gradle has a line sourceSets.test.resources.srcDir file("$rootDir/programs")

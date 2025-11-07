@@ -41,6 +41,7 @@ import triangle.abstractSyntaxTrees.commands.LetCommand;
 import triangle.abstractSyntaxTrees.commands.RepeatCommand;
 import triangle.abstractSyntaxTrees.commands.SequentialCommand;
 import triangle.abstractSyntaxTrees.commands.WhileCommand;
+import triangle.abstractSyntaxTrees.commands.WhileDoCommand;
 import triangle.abstractSyntaxTrees.declarations.BinaryOperatorDeclaration;
 import triangle.abstractSyntaxTrees.declarations.ConstDeclaration;
 import triangle.abstractSyntaxTrees.declarations.ConstantDeclaration;
@@ -188,6 +189,7 @@ public final class Checker implements ActualParameterVisitor<FormalParameter, Vo
 
 		return null;
 	}
+	
 	@Override
 	public Void visitRepeatCommand(RepeatCommand ast, Void arg) {
 	var eType = ast.E.visit(this);
@@ -196,6 +198,15 @@ public final class Checker implements ActualParameterVisitor<FormalParameter, Vo
 	ast.C.visit(this);
 
 	return null;
+	}
+	
+	@Override
+	public Void visitWhileDoCommand(WhileDoCommand ast, Void arg) {
+		ast.C1.visit(this);
+		var eType = ast.E.visit(this);
+		checkAndReportError(eType.equals(StdEnvironment.booleanType), "Boolean expression expected here", ast.E);
+		ast.C2.visit(this);
+		return null;
 	}
 	// Expressions
 
@@ -972,4 +983,5 @@ public final class Checker implements ActualParameterVisitor<FormalParameter, Vo
 				StdEnvironment.booleanType);
 
 	}
+
 }
