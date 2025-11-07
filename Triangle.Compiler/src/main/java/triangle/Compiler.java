@@ -27,17 +27,25 @@ import triangle.syntacticAnalyzer.Parser;
 import triangle.syntacticAnalyzer.Scanner;
 import triangle.syntacticAnalyzer.SourceFile;
 import triangle.treeDrawer.Drawer;
-
+import com.sampullara.cli.Args;
+import com.sampullara.cli.Argument;
 /**
  * The main driver class for the Triangle compiler.
  */
 public class Compiler {
 
 	/** The filename for the object program, normally obj.tam. */
+	@Argument(alias="objectName", description = "the objects name", required = true)
 	static String objectName = "obj.tam";
 	
+	@Argument(alias="showTree", description = "Show the AST")
 	static boolean showTree = false;
+	
+	@Argument(alias="folding", description = "Enables folding")
 	static boolean folding = false;
+	
+	@Argument(alias="showTreeAfter", description ="Shows the tree after folding is complete")
+	static boolean showTreeAfter = false;
 
 	private static Scanner scanner;
 	private static Parser parser;

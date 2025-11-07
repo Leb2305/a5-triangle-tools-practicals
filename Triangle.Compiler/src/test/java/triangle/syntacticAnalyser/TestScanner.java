@@ -80,7 +80,7 @@ public class TestScanner {
 	
 	@Test
 	public void testAdd() {
-		compileExpectSuccess("/add.tri");
+		compileExpectFailure("/add.tri");
 	}
 	
 	

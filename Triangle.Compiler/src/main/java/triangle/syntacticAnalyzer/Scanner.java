@@ -35,7 +35,7 @@ public final class Scanner {
 		return (c >= '0' && c <= '9');
 	}
 
-	// isOperator returns true iff the given character is an operator character.
+	// isOperator returns true if the given character is an operator character.
 
 	public static boolean isOperator(char c) {
 		return (c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == '<' || c == '>' || c == '\\'
