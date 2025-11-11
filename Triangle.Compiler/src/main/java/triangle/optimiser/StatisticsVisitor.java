@@ -475,6 +475,8 @@ public class StatisticsVisitor implements ActualParameterVisitor<Void, AbstractS
 
 	@Override
 	public AbstractSyntaxTree visitCallCommand(CallCommand ast, Void arg) {
+		ast.APS.visit(this);
+		ast.I.visit(this);
 		return null;
 	}
 
