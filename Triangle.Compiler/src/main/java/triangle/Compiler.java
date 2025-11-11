@@ -23,6 +23,7 @@ import triangle.codeGenerator.Emitter;
 import triangle.codeGenerator.Encoder;
 import triangle.contextualAnalyzer.Checker;
 import triangle.optimiser.ConstantFolder;
+import triangle.optimiser.StatisticsVisitor;
 import triangle.syntacticAnalyzer.Parser;
 import triangle.syntacticAnalyzer.Scanner;
 import triangle.syntacticAnalyzer.SourceFile;
@@ -35,17 +36,20 @@ import com.sampullara.cli.Argument;
 public class Compiler {
 
 	/** The filename for the object program, normally obj.tam. */
-	@Argument(alias="objectName", description = "the objects name", required = true)
+	@Argument(alias= "objectName", description = "the objects name", required = true)
 	static String objectName = "obj.tam";
 	
-	@Argument(alias="showTree", description = "Show the AST")
+	@Argument(alias= "showTree", description = "Show the AST")
 	static boolean showTree = false;
 	
-	@Argument(alias="folding", description = "Enables folding")
+	@Argument(alias= "folding", description = "Enables folding")
 	static boolean folding = false;
 	
-	@Argument(alias="showTreeAfter", description ="Shows the tree after folding is complete")
+	@Argument(alias= "showTreeAfter", description = "Shows the tree after folding is complete")
 	static boolean showTreeAfter = false;
+	
+	@Argument(alias= "showStats", description = "Shows program statistics")
+	static boolean showStats = false;
 
 	private static Scanner scanner;
 	private static Parser parser;
@@ -105,7 +109,11 @@ public class Compiler {
 			if (folding) {
 				theAST.visit(new ConstantFolder());
 			}
-			
+			if (showStats) {
+				StatisticsVisitor stats = new StatisticsVisitor();
+				theAST.visit(stats);
+				stats.printStats();
+			}
 			if (reporter.getNumErrors() == 0) {
 				System.out.println("Code Generation ...");
 				encoder.encodeRun(theAST, showingTable); // 3rd pass
@@ -155,6 +163,8 @@ public class Compiler {
 				objectName = s.substring(3);
 			} else if (sl.equals("folding")) {
 				folding = true;
+			}else if (sl.equals("stats")) {
+				showStats = true;
 			}
 		}
 	}
